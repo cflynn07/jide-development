@@ -1,0 +1,6 @@
+[submodule "jide-api"]
+	path = jide-api
+	url = ssh://git@github.com/cflynn07/jide-api.git
+[submodule "jide-web"]
+	path = jide-web
+	url = ssh://git@github.com/cflynn07/jide-web.git
