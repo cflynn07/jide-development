@@ -1,0 +1,51 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: jide-mysql
+  labels:
+    app: jide-mysql
+spec:
+  ports:
+    - port: 3306
+      targetPort: jide-mysql-port
+      protocol: TCP
+      name: mysql
+  selector:
+    app: jide-mysql
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jide-mysql
+  labels:
+    app: jide-mysql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jide-mysql
+  template:
+    metadata:
+      labels:
+        app: jide-mysql
+    spec:
+      terminationGracePeriodSeconds: 0
+      containers:
+        - name: jide-mysql
+          image: jide-mysql
+          env:
+            - name: MYSQL_ALLOW_EMPTY_PASSWORD
+              value: "yes"
+            - name: MYSQL_DATABASE
+              value: "jide"
+          ports:
+            - name: jide-mysql-port
+              containerPort: 3306
+          livenessProbe:
+            exec:
+              command:
+              - whoami
+            initialDelaySeconds: 3
+            periodSeconds: 3

@@ -1,0 +1,17 @@
+apiVersion: skaffold/v2beta1
+kind: Config
+build:
+  artifacts:
+    - image: jide-web
+      context: ./jide-web/
+    - image: jide-api
+      context: ./jide-api/
+    - image: jide-mysql
+      context: ./jide-mysql/
+deploy:
+  kubectl:
+    manifests:
+      - ./loadbalancer.yaml
+      - ./jide-api/kubernetes/*
+      - ./jide-mysql/kubernetes/*
+      - ./jide-web/kubernetes/*
