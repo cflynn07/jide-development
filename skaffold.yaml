@@ -3,12 +3,17 @@ kind: Config
 build:
   artifacts:
     - image: jide-web
+      sync:
+        manual:
+          - src: '**/*.js'
+            dest: '/usr/src/app'
       context: ./jide-web/
     - image: jide-api
       context: ./jide-api/
     - image: jide-mysql
       context: ./jide-mysql/
 deploy:
+  kubeContext: docker-desktop
   kubectl:
     manifests:
       - ./loadbalancer.yaml
